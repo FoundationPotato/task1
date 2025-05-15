@@ -1,0 +1,16 @@
+pipeline {
+  agent ubuntu
+  stages {
+    stage('Build') {
+      steps {
+        sh "docker build -t flaskapp ."
+      }
+    }
+    stage('Run') {
+      steps {
+        sh "docker run -d flaskapp flask-app"
+        sh "docker run -d -p 80:80 --mount type=bind,src=./nginx.conf,dst=/etc/nginx/nginx.conf nginx"
+      }
+    }
+  }
+}
