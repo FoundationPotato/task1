@@ -1,6 +1,11 @@
 pipeline {
   agent any
   stages {
+    stage('Scan') {
+      steps {
+        sh "trivy fs -f json -o scan.json ."
+      }
+    }
     stage('Build') {
       steps {
         sh "docker build -t flaskapp ."
